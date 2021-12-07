@@ -22,7 +22,10 @@ public class Cookie {
 
     public String retrieve() {
         Random rand = new Random();
-        return cookieList.get(rand.nextInt(cookieList.size()));
+        return String.format("cookie-text %s",  cookieList.get(rand.nextInt(cookieList.size())));
     }
 
 }
+
+// to run use this in target folder
+//java -cp fortunecookie-1.jar Main 12345 cookies.txt

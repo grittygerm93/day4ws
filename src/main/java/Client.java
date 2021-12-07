@@ -5,30 +5,62 @@ import java.net.Socket;
 import java.util.Scanner;
 
 class Client {
-//    private static final String SERVER_ADDRESS = "127.0.0.1";
-//    private static final int SERVER_PORT = 12345;
+    private static final String SERVER_ADDRESS = "127.0.0.1";
+    private static final int SERVER_PORT = 12345;
 
     public static void main(String[] args) {
-        String[] cmdInput = args[0].split(":");
+        //String[] cmdInput = args[0].split(":");
+        while (true) {
+            try (
+                    //Socket socket = new Socket(cmdInput[0], Integer.parseInt(cmdInput[1]));
+                    Socket socket = new Socket(SERVER_ADDRESS, 12345);
+                    DataInputStream input = new DataInputStream(socket.getInputStream());
+                    DataOutputStream output = new DataOutputStream(socket.getOutputStream())
+            ) {
 
 
-        try (
-                Socket socket = new Socket(cmdInput[0], Integer.parseInt(cmdInput[1]));
-                DataInputStream input = new DataInputStream(socket.getInputStream());
-                DataOutputStream output = new DataOutputStream(socket.getOutputStream())
-        ) {
-            /*Scanner scanner = new Scanner(System.in);
+                //initial connection
+                //problematic line why???
+                /*output.writeUTF("get-cookie"); //sending msg to server
+                fromServer(input);*/
+                boolean exitLoop = false;
 
-            String msg = scanner.nextLine();
+                while(true) {
+                    Scanner scanner = new Scanner(System.in);
+                    String msg = scanner.nextLine();
+                    switch (msg) {
+                        case "get-cookie":
+                            output.writeUTF(msg);
+                            System.out.println(input.readUTF());
+                            fromServer(input);
+                            break;
+                        case "close":
+                            output.writeUTF(msg);
+                            System.out.println("Received from server: in close" + input.readUTF());
+                            exitLoop = true;
+                            break;
+                        default:
+                            System.out.println("no such command");
+                    }
+                    if(exitLoop)
+                        break;
 
-            output.writeUTF(msg); // sending message to the server*/
-            String receivedMsg = input.readUTF(); // response message
+                }
 
-            System.out.println("Received from server: " + receivedMsg);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
+    public static void fromServer(DataInputStream input){
+        try {
+            String receivedMsg = input.readUTF();
+            System.out.println("Received from server: " + receivedMsg.split("\\s+")[1]);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }
+// to run use this in target folder
+//java -cp fortunecookie-1.jar Client localhost:12345

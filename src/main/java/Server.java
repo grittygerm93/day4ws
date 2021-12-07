@@ -21,9 +21,16 @@ public class Server {
         while(true) {
             try (ServerSocket server = new ServerSocket(PORT)) {
                 try (Socket socket = server.accept();
-                     DataOutputStream output = new DataOutputStream(socket.getOutputStream())) {
+                     DataOutputStream output = new DataOutputStream(socket.getOutputStream());
+                     DataInputStream input = new DataInputStream(socket.getInputStream())) {
                     Cookie cookie = new Cookie();
-                    output.writeUTF(cookie.retrieve());
+                    String clientMsg = input.readUTF();
+                    if("get-cookie".equals(clientMsg))
+                        output.writeUTF(cookie.retrieve());
+                    if("close".equals(clientMsg)) {
+                        output.writeUTF("close connection");
+                        break;
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
