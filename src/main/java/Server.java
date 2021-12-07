@@ -18,19 +18,12 @@ public class Server {
 
     public void start() {
         String line;
-        List<String> cookies = new ArrayList<>();
         while(true) {
             try (ServerSocket server = new ServerSocket(PORT)) {
                 try (Socket socket = server.accept();
                      DataOutputStream output = new DataOutputStream(socket.getOutputStream())) {
-
-                    InputStream in = getClass().getResourceAsStream("/cookies.txt");
-                    BufferedReader br = new BufferedReader(new InputStreamReader(in));
-                    while (null != (line = br.readLine())) {
-                        cookies.add(line);
-                    }
-                    Random rand = new Random();
-                    output.writeUTF(cookies.get(rand.nextInt(3)));
+                    Cookie cookie = new Cookie();
+                    output.writeUTF(cookie.retrieve());
                 }
             } catch (IOException e) {
                 e.printStackTrace();
