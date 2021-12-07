@@ -10,6 +10,7 @@ class Client {
 
     public static void main(String[] args) {
         //String[] cmdInput = args[0].split(":");
+        boolean exitLoop = false;
         while (true) {
             try (
                     //Socket socket = new Socket(cmdInput[0], Integer.parseInt(cmdInput[1]));
@@ -23,33 +24,35 @@ class Client {
                 //problematic line why???
                 /*output.writeUTF("get-cookie"); //sending msg to server
                 fromServer(input);*/
-                boolean exitLoop = false;
 
-                while(true) {
-                    Scanner scanner = new Scanner(System.in);
-                    String msg = scanner.nextLine();
-                    switch (msg) {
-                        case "get-cookie":
-                            output.writeUTF(msg);
-                            System.out.println(input.readUTF());
-                            fromServer(input);
-                            break;
-                        case "close":
-                            output.writeUTF(msg);
-                            System.out.println("Received from server: in close" + input.readUTF());
-                            exitLoop = true;
-                            break;
-                        default:
-                            System.out.println("no such command");
-                    }
-                    if(exitLoop)
+
+                Scanner scanner = new Scanner(System.in);
+                String msg = scanner.nextLine();
+                switch (msg) {
+                    case "get-cookie":
+                        output.writeUTF(msg);
+                        //System.out.println(input.readUTF());
+                        fromServer(input);
                         break;
-
+                    case "close":
+                        output.writeUTF(msg);
+                        System.out.println("Received from server: " + input.readUTF());
+                        exitLoop = true;
+                        break;
+                    default:
+                        System.out.println("no such command");
+                        output.writeUTF("");
+                        input.readUTF();
                 }
 
+
+
             } catch (IOException e) {
+                //System.out.println("sdfs");
                 e.printStackTrace();
             }
+        if(exitLoop)
+            break;
         }
     }
 

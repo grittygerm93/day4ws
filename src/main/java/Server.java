@@ -31,6 +31,9 @@ public class Server {
                         output.writeUTF("close connection");
                         break;
                     }
+                    else {
+                        output.writeUTF("");
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
