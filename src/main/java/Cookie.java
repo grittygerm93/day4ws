@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -14,6 +11,8 @@ public class Cookie {
         String line;
         InputStream in = getClass().getResourceAsStream("/cookies.txt");
         BufferedReader br = new BufferedReader(new InputStreamReader(in));
+//        FileReader in = new FileReader("/cookies.txt");
+//        BufferedReader br = new BufferedReader(in);
         while (null != (line = br.readLine())) {
             cookieList.add(line);
         }
@@ -26,6 +25,14 @@ public class Cookie {
     }
 
 }
+
+//try (Reader reader = new FileReader(fileName1)) {
+//        BufferedReader br = new BufferedReader(reader);
+//        while (null != (line = br.readLine())) {
+//        System.out.println("LINE: " + line);
+//        list1.add(line);
+//        }
+//        }
 
 // to run use this in target folder
 //java -cp fortunecookie-1.jar Main 12345 cookies.txt

@@ -5,16 +5,16 @@ import java.net.Socket;
 import java.util.Scanner;
 
 class Client {
-    private static final String SERVER_ADDRESS = "127.0.0.1";
-    private static final int SERVER_PORT = 12345;
+//    private static final String SERVER_ADDRESS = "127.0.0.1";
+//    private static final int SERVER_PORT = 12345;
 
     public static void main(String[] args) {
-        //String[] cmdInput = args[0].split(":");
+        String[] cmdInput = args[0].split(":");
         boolean exitLoop = false;
         while (true) {
             try (
-                    //Socket socket = new Socket(cmdInput[0], Integer.parseInt(cmdInput[1]));
-                    Socket socket = new Socket(SERVER_ADDRESS, 12345);
+                    Socket socket = new Socket(cmdInput[0], Integer.parseInt(cmdInput[1]));
+//                    Socket socket = new Socket(SERVER_ADDRESS, 12345);
                     DataInputStream input = new DataInputStream(socket.getInputStream());
                     DataOutputStream output = new DataOutputStream(socket.getOutputStream())
             ) {
