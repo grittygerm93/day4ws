@@ -19,7 +19,7 @@ public class Server {
     public void start() {
         try (ServerSocket server = new ServerSocket(PORT)) {
             while (true) {
-                CookieClientHandler handler = new CookieClientHandler(server.accept());
+                CookieClientHandler handler = new CookieClientHandler(server.accept(), fileName);
                 Thread thread = new Thread(handler);
                 thread.start();
             }

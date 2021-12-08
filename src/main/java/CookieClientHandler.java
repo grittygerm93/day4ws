@@ -6,9 +6,11 @@ import java.net.Socket;
 
 public class CookieClientHandler implements Runnable {
     private Socket socket;
+    private String fileName;
 
-    public CookieClientHandler(Socket socket) {
+    public CookieClientHandler(Socket socket, String fileName) {
         this.socket = socket;
+        this.fileName = fileName;
     }
 
     @Override
@@ -17,7 +19,7 @@ public class CookieClientHandler implements Runnable {
              DataInputStream input = new DataInputStream(socket.getInputStream())) {
 //            while (input.available() > 0) {
             while(true) {
-                Cookie cookie = new Cookie();
+                Cookie cookie = new Cookie(fileName);
                 String clientMsg = input.readUTF();
                 if ("get-cookie".equals(clientMsg))
                     output.writeUTF(cookie.retrieve());

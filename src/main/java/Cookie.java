@@ -6,10 +6,10 @@ import java.util.Random;
 public class Cookie {
     List<String> cookieList;
 
-    public Cookie() throws IOException {
+    public Cookie(String fileName) throws IOException {
         cookieList = new ArrayList<>();
         String line;
-        InputStream in = getClass().getResourceAsStream("/cookies.txt");
+        InputStream in = getClass().getResourceAsStream(fileName);
         BufferedReader br = new BufferedReader(new InputStreamReader(in));
 //        FileReader in = new FileReader("/cookies.txt");
 //        BufferedReader br = new BufferedReader(in);
