@@ -26,6 +26,8 @@ public class Cookie {
 
 }
 
+//classloader info https://stackoverflow.com/questions/14089146/file-loading-by-getclass-getresource
+
 //try (Reader reader = new FileReader(fileName1)) {
 //        BufferedReader br = new BufferedReader(reader);
 //        while (null != (line = br.readLine())) {
