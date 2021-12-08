@@ -14,7 +14,7 @@ class Client {
         while (true) {
             try (
                     Socket socket = new Socket(cmdInput[0], Integer.parseInt(cmdInput[1]));
-//                    Socket socket = new Socket(SERVER_ADDRESS, 12345);
+//                    Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
                     DataInputStream input = new DataInputStream(socket.getInputStream());
                     DataOutputStream output = new DataOutputStream(socket.getOutputStream())
             ) {

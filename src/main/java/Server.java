@@ -8,7 +8,7 @@ import java.util.Random;
 public class Server {
 
     private int PORT;
-    private String fileName;
+    private String fileName; //need to pass to cookies
 
 
     public Server(String PORT, String fileName) {
@@ -17,27 +17,28 @@ public class Server {
     }
 
     public void start() {
-        String line;
-        while(true) {
-            try (ServerSocket server = new ServerSocket(PORT)) {
-                try (Socket socket = server.accept();
-                     DataOutputStream output = new DataOutputStream(socket.getOutputStream());
-                     DataInputStream input = new DataInputStream(socket.getInputStream())) {
-                    Cookie cookie = new Cookie();
-                    String clientMsg = input.readUTF();
-                    if("get-cookie".equals(clientMsg))
-                        output.writeUTF(cookie.retrieve());
-                    if("close".equals(clientMsg)) {
-                        output.writeUTF("close connection");
-                        break;
-                    }
-                    else {
-                        output.writeUTF("");
-                    }
+        try (ServerSocket server = new ServerSocket(PORT)) {
+            while(true) {
+                CookieClientHandler handler = new CookieClientHandler(server.accept());
+                Thread thread = new Thread(handler);
+                thread.start();
+           /* try (Socket socket = server.accept();
+                 DataOutputStream output = new DataOutputStream(socket.getOutputStream());
+                 DataInputStream input = new DataInputStream(socket.getInputStream())) {
+                Cookie cookie = new Cookie();
+                String clientMsg = input.readUTF();
+                if("get-cookie".equals(clientMsg))
+                    output.writeUTF(cookie.retrieve());
+                if("close".equals(clientMsg)) {
+                    output.writeUTF("close connection");
+                    break;
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+                else {
+                    output.writeUTF("");
+                }*/
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
